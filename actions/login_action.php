@@ -54,12 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     try {
-        $stmt = $pdo->prepare("SELECT id, password, `name` FROM users WHERE user_id = :user_id");
+        $stmt = $pdo->prepare("SELECT id, user_id, password, name FROM users WHERE user_id = :user_id");
         $stmt->execute(['user_id' => $user_id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['login_user_id'] = $user['user_id'];
             $_SESSION['login_id'] = $user['id'];
             $username = $user['name'];
 

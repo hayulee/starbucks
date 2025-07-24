@@ -34,9 +34,22 @@ require_once(__DIR__ . '/../includes/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST['user_id'] ?? '';
-    $name = $_POST['name'] ?? '';
     $password = $_POST['password'] ?? '';
+    $name = $_POST['name'] ?? '';
+    // $gender = $_POST['gender'] ?? '';
+    $phone = $_POST['phone'] ?? '';
+    $address = $_POST['address'] ?? '';
+    $email = $_POST['email'] ?? '';
 
+    
+    if (!$user_id || !$password || !$gender || !$phone || !$address || !$email) {
+        echo json_encode([
+            'status' => 'fail',
+            'message' => '모든 필드를 입력해주세요.'
+        ]);
+        exit;
+    }
+    
     if (strlen($user_id) < 3 || strlen($password) < 4) {
         echo json_encode([
             'status' => 'fail',
@@ -46,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // 중복 확인
+        // 아이디 중복 확인
         $stmt = $pdo->prepare("SELECT id FROM users WHERE user_id = :user_id");
         $stmt->execute(['user_id' => $user_id]);
         if ($stmt->fetch()) {
@@ -57,13 +70,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
+        $hashed_pw = password_hash($password, PASSWORD_DEFAULT);
+
         // 회원 등록
-        $stmt = $pdo->prepare("INSERT INTO users (user_id, name, password) VALUES (:user_id, :name, :password)");
-        $stmt->execute([
-            'user_id' => $user_id,
-            'name' => $name,
-            'password' => password_hash($password, PASSWORD_DEFAULT)
-        ]);
+        $sql = "INSERT INTO users (user_id, password, name, phone, address, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$user_id, $hashed_pw, $name, $phone, $address, $email]);
+
+        // $sql = "INSERT INTO users (user_id, password, name) VALUES (:user_id, :name, :password)";
+        // $stmt = $pdo->prepare($sql);
+        // $stmt->execute([
+        //     'user_id' => $user_id,
+        //     'name' => $name,
+        //     'password' => password_hash($password, PASSWORD_DEFAULT)
+        // ]);
 
         echo json_encode([
             'status' => 'success',
