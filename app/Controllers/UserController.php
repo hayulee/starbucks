@@ -6,9 +6,48 @@ use App\Models\User;
 
 class UserController extends BaseController {
 
-    // public function loginForm() {
-    //     $this->view('user/login');
-    // }
+    public function register() {
+        $user_id    = $_POST['user_id'];
+        $user_pw    = $_POST['user_pw'];
+        $user_name  = $_POST['user_name'];
+        $phone_num  = $_POST['phone'];
+
+        // User 모델 인스턴스 생성
+        $userModel = new User($this->pdo);
+
+        // 아이디 중복 확인
+        $id_confirm = $userModel->findByUserId($user_id);
+
+        if ($id_confirm) {
+            echo json_encode([
+                'status' => 'fail',
+                'message' => '이미 사용 중인 아이디입니다. 다른 아이디를 사용해 주세요.'
+            ]);
+            exit;
+        }
+
+        // 비밀번호 암호화
+        $hashed_pw = password_hash($user_pw, PASSWORD_DEFAULT);
+
+        $user_info = [
+                        'user_id'=> $user_id,
+                        'user_pw'=> $hashed_pw,
+                        'user_name'=> $user_name,
+                        'phone_num'=> $phone_num     
+        ];
+
+        // 회원 가입 처리
+        $register = $userModel->registerUser($user_info);
+
+        if($register) {
+            echo json_encode([
+                    'status' => 'success',
+                    'message' => '가입을 환영합니다.'
+            ]);
+            exit;
+        }
+
+    }
 
     public function login() {
         $id = $_POST['login_id'] ?? '';
@@ -44,12 +83,4 @@ class UserController extends BaseController {
         exit;
     }
 
-    // public function mypage() {
-    //     if (!isset($_SESSION['user'])) {
-    //         header("Location: /index.php?route=login");
-    //         exit;
-    //     }
-    //     $user = $_SESSION['user'];
-    //     $this->view('user/mypage', ['user' => $user]);
-    // }
 }

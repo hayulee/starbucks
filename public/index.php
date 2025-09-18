@@ -19,12 +19,14 @@ $router->get('', 'HomeController@index');
 
 // user
 // $router->get('login', 'UserController@loginForm');
-$router->post('login', 'UserController@login');
-$router->get('logout', 'UserController@logout');
+$router->post('user/login', 'UserController@login');
+$router->get('user/logout', 'UserController@logout');
+$router->post('user/register', 'UserController@register');
 
 // product
 $router->get('product/list', 'ProductController@list');
 $router->get('product/detail', 'ProductController@detail');
+$router->post('product/register', 'ProductController@register');
 
 // 기타 라우팅 추가...
 

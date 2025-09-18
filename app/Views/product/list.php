@@ -10,14 +10,11 @@
 			<? foreach ($products as $product): ?>
 				<div class="col">
 					<div class="card h-100 shadow-sm">
-				<? if (!empty($product['image'])): ?>
-					<img 
-						src="/uploads/<?= htmlspecialchars($product['image']) ?>" 
-						class="card-img-top" 
-						alt="<?= htmlspecialchars($product['name']) ?>"
-					>
-				<? endif; ?>
+
 						<div class="card-body">
+							<img src="/uploads/<?=$imgFolderName?>/<?= urlencode($product['img_name']) ?>" 
+									alt="<?= htmlspecialchars($product['name']) ?>" 
+									class="img-fluid mb-3">
 							<h5 class="card-title">
 								<?= htmlspecialchars($product['name']) ?>
 							</h5>

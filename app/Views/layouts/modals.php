@@ -20,8 +20,8 @@
           <label class="form-check-label" for="female">여자</label>
         </div> -->
         <input type="tel" name="phone" class="form-control mb-2" placeholder="핸드폰 번호" required>
-        <input type="text" name="address" class="form-control mb-2" placeholder="주소" required>
-        <input type="email" name="email" class="form-control mb-2" placeholder="이메일" required>
+        <!-- <input type="text" name="address" class="form-control mb-2" placeholder="주소" required> -->
+        <!-- <input type="email" name="email" class="form-control mb-2" placeholder="이메일" required> -->
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
@@ -67,7 +67,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
-        <button type="button" class="btn btn-danger" onclick="location.href='/logout'">예</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='user/logout'">예</button>
       </div>
     </form>
   </div>
@@ -82,7 +82,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
       </div>
       <div class="modal-body">
-        <form action="product_add_action.php" method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
           <div class="mb-3">
             <label class="form-label">상품명</label>
             <input type="text" name="name" class="form-control" required>
@@ -92,9 +92,9 @@
             <label class="form-label">카테고리</label>
             <select name="category" class="form-select" required>
               <option value="">선택</option>
-              <option value="Beverage">음료</option>
-              <option value="Food">푸드</option>
-              <option value="Merchandise">상품</option>
+              <option value="B">음료</option>
+              <option value="F">푸드</option>
+              <option value="M">상품</option>
             </select>
           </div>
 
@@ -105,12 +105,12 @@
 
           <div class="mb-3">
             <label class="form-label">설명</label>
-            <textarea name="description" class="form-control" rows="3"></textarea>
+            <textarea name="description" class="form-control" rows="3" required></textarea>
           </div>
 
           <div class="mb-3">
             <label class="form-label">이미지</label>
-            <input type="file" name="image" class="form-control">
+            <input type="file" name="image" class="form-control" required>
           </div>
 
           <div class="modal-footer p-0 pt-3">

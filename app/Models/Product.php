@@ -27,10 +27,34 @@ class Product {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    // public function create($name, $price, $description, $image) {
-    //     $stmt = $this->pdo->prepare("INSERT INTO products (name, price, description, image) VALUES (?, ?, ?, ?)");
-    //     return $stmt->execute([$name, $price, $description, $image]);
-    // }
+    public function registerProduct($pro_info) {
+        $pro_name = $pro_info['pro_name'];
+        $category = $pro_info['category'];
+        $price = $pro_info['price'];
+        $description = $pro_info['description'];
+        $original_img_name = $pro_info['file_name'];
+        $img_name = $pro_info['save_name'];
+
+        $stmt = $this->pdo->prepare("
+            INSERT INTO products (
+                name, 
+                category, 
+                price, 
+                description, 
+                original_img_name, 
+                img_name
+            ) VALUES (?, ?, ?, ?, ?, ?)
+        ");
+
+        return $stmt->execute([
+            $pro_name, 
+            $category, 
+            $price, 
+            $description, 
+            $original_img_name, 
+            $img_name
+        ]);
+    }
 
     // public function update($id, $name, $price, $description, $image) {
     //     $stmt = $this->pdo->prepare("UPDATE products SET name=?, price=?, description=?, image=? WHERE id=?");
